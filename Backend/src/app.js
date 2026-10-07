@@ -1,5 +1,6 @@
 const express = require('express');
 const config = require('./config');
+const webhookRouter = require('./routes/webhook');
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.get('/health', (req, res) => {
     uptime: Math.round(process.uptime()),
   });
 });
+
+app.use(webhookRouter);
 
 app.use((req, res) => {
   res.status(404).json({
