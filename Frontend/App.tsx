@@ -1,6 +1,5 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * Entry component. Everything else lives under src/.
  *
  * @format
  */
@@ -12,7 +11,7 @@ import LeadsScreen from './src/screens/LeadsScreen';
 function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" backgroundColor="#F3F4F6" />
+      <StatusBar barStyle="dark-content" />
       <LeadsScreen />
     </SafeAreaProvider>
   );
