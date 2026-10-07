@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('./config');
 const webhookRouter = require('./routes/webhook');
+const leadsRouter = require('./routes/leads');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use(webhookRouter);
+app.use(leadsRouter);
 
 app.use((req, res) => {
   res.status(404).json({
