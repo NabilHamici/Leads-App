@@ -2,3 +2,6 @@ node_modules/
 .env
 .expo/
 dist/
+
+# local project context file — not part of the submission
+README.md
