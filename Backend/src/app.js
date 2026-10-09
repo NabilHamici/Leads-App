@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const config = require('./config');
 const webhookRouter = require('./routes/webhook');
@@ -21,6 +22,15 @@ app.get('/health', (req, res) => {
 app.use(webhookRouter);
 app.use(leadsRouter);
 app.use(privacyRouter);
+
+// Static assets — the recorded answers page and its audio files.
+app.use(
+  '/audio',
+  express.static(path.join(__dirname, '..', 'public', 'audio'), {
+    fallthrough: false,
+    maxAge: '1h',
+  }),
+);
 
 app.use((req, res) => {
   res.status(404).json({
