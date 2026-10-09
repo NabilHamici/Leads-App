@@ -4,4 +4,4 @@ node_modules/
 dist/
 
 # local project context file — not part of the submission
-README.md
+PROJECT-CONTEXT.md
