@@ -51,7 +51,7 @@ server restarts, so retention is effectively the lifetime of the process.</p>
 time by contacting the address below.</p>
 
 <h2>Contact</h2>
-<p>privacy@example.com — replace this address before publishing.</p>
+<p>securekds2@gmail.com</p>
 </main>
 </body>
 </html>`;
