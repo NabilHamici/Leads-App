@@ -69,7 +69,7 @@ Server answers on `http://localhost:4000/health`.
 
 | Variable | Required | What it is |
 |---|---|---|
-| `VERIFY_TOKEN` | ✅ | Any string **you choose**. Must match the token you type into the Meta dashboard when it verifies your webhook. |
+| `VERIFY_TOKEN` | Yes | Any string **you choose**. Must match the token you type into the Meta dashboard when it verifies your webhook. |
 | `PAGE_ACCESS_TOKEN` | for real leads | Permanent **Page** access token, scoped to your test Page. Without it the app still runs — leads arrive flagged `incomplete`. |
 | `APP_SECRET` | optional | Your Meta app secret. |
 | `GRAPH_API_VERSION` | optional | Defaults to `v22.0`. |
