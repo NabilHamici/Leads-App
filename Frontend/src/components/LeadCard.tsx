@@ -1,9 +1,10 @@
 import { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { Lead } from '../types';
 
 interface Props {
   lead: Lead;
+  onDelete?: (id: string) => void;
 }
 
 const formatTime = (ms: number): string =>
@@ -12,11 +13,29 @@ const formatTime = (ms: number): string =>
     minute: '2-digit',
   });
 
-const LeadCard = ({ lead }: Props) => (
+const LeadCard = ({ lead, onDelete }: Props) => (
   <View style={styles.card}>
     <View style={styles.header}>
       <Text style={styles.name}>{lead.name}</Text>
-      <Text style={styles.time}>{formatTime(lead.createdAt)}</Text>
+
+      <View style={styles.headerRight}>
+        <Text style={styles.time}>{formatTime(lead.createdAt)}</Text>
+
+        {onDelete ? (
+          <Pressable
+            onPress={() => onDelete(lead.id)}
+            hitSlop={10}
+            accessibilityRole="button"
+            accessibilityLabel={`Delete lead from ${lead.name}`}
+            style={({ pressed }) => [
+              styles.deleteButton,
+              pressed && styles.deleteButtonPressed,
+            ]}
+          >
+            <Text style={styles.deleteIcon}>×</Text>
+          </Pressable>
+        ) : null}
+      </View>
     </View>
 
     {lead.email ? <Text style={styles.detail}>{lead.email}</Text> : null}
@@ -51,6 +70,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 6,
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexShrink: 0,
+  },
   name: {
     fontSize: 17,
     fontWeight: '600',
@@ -60,6 +84,24 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 13,
+    color: '#6B7280',
+    marginRight: 10,
+  },
+  deleteButton: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F3F4F6',
+  },
+  deleteButtonPressed: {
+    backgroundColor: '#FEE2E2',
+  },
+  deleteIcon: {
+    fontSize: 18,
+    lineHeight: 20,
+    fontWeight: '600',
     color: '#6B7280',
   },
   detail: {
