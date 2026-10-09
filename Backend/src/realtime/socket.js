@@ -24,8 +24,17 @@ const initRealtime = (httpServer) => {
     io.emit('lead:new', lead);
   });
 
+  bus.on('lead:deleted', ({ id }) => {
+    console.log(`[socket] broadcasting delete ${id}`);
+    io.emit('lead:deleted', { id });
+  });
+
+  bus.on('lead:cleared', ({ removed }) => {
+    console.log(`[socket] broadcasting clear (${removed} lead(s))`);
+    io.emit('lead:cleared', { removed });
+  });
+
   return io;
 };
 
 module.exports = { initRealtime, CLIENT_PATH };
-
