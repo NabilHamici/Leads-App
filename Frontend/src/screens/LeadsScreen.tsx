@@ -42,11 +42,22 @@ const EmptyState = () => (
 
 const LeadsScreen = () => {
   const insets = useSafeAreaInsets();
-  const { leads, status, isLoading, error, refresh } = useLeadsSocket();
+  const {
+    leads,
+    status,
+    isLoading,
+    isMutating,
+    error,
+    refresh,
+    removeLead,
+    clearAll,
+  } = useLeadsSocket();
 
   const renderItem = useCallback(
-    ({ item }: { item: Lead }) => <LeadCard lead={item} />,
-    [],
+    ({ item }: { item: Lead }) => (
+      <LeadCard lead={item} onDelete={(id) => void removeLead(id)} />
+    ),
+    [removeLead],
   );
 
   const keyExtractor = useCallback((item: Lead) => item.id, []);
@@ -60,7 +71,28 @@ const LeadsScreen = () => {
             {leads.length} {leads.length === 1 ? 'lead' : 'leads'} · newest first
           </Text>
         </View>
-        <LiveBadge status={status} />
+
+        <View style={styles.headerRight}>
+          <LiveBadge status={status} />
+
+          {leads.length > 0 ? (
+            <Pressable
+              onPress={() => void clearAll()}
+              disabled={isMutating}
+              hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel="Clear all leads"
+              style={({ pressed }) => [
+                styles.clearButton,
+                pressed && styles.clearButtonPressed,
+              ]}
+            >
+              <Text style={styles.clearLabel}>
+                {isMutating ? '…' : 'Clear'}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
       </View>
 
       {error ? (
@@ -103,11 +135,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   title: { fontSize: 28, fontWeight: '700', color: '#111827' },
   subtitle: { fontSize: 13, color: '#6B7280', marginTop: 2 },
   badge: { flexDirection: 'row', alignItems: 'center' },
   badgeDot: { fontSize: 12, marginRight: 5 },
   badgeLabel: { fontSize: 14, fontWeight: '600' },
+  clearButton: {
+    marginLeft: 12,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 6,
+    backgroundColor: '#FEE2E2',
+  },
+  clearButtonPressed: {
+    backgroundColor: '#FECACA',
+  },
+  clearLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#991B1B',
+  },
   errorBanner: {
     flexDirection: 'row',
     justifyContent: 'space-between',
